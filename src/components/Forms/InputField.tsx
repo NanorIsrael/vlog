@@ -14,7 +14,7 @@ export default function InputField({
 }: InputType) {
   return (
     <div>
-      {label && (
+      {label ? (
         <label htmlFor={name}>
           {name}
           <input
@@ -24,7 +24,16 @@ export default function InputField({
             ref={fieldRef}
           />
         </label>
-      )}
+      ) : 
+      (
+        <input
+            id={name}
+            type={type || "text"}
+            placeholder={name}
+            ref={fieldRef}
+          />
+      )
+      }
       {<p>{errors[name]}</p>}
     </div>
   );

@@ -17,9 +17,20 @@ export default function RegistrationPage() {
 
   useEffect(() => usernameRef.current?.focus(), []);
 
-  const onSubmit = async (ev: SyntheticEvent) => {
+  const onSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
+    // console.log("this event" , ev.target)
+    // const formData = new FormData(ev.target as HTMLFormElement)
+    // formData.
+    // const target = ev.currentTarget;
+    // const formData = new FormData(target);
+    //   // Rest of your code using formData
+    //   console.log("this name", ev.currentTarget, formData.get("username"))
+
+
+
+    // console.log("this name", formData.get("username"))
     const username = usernameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passRef.current?.value;
@@ -94,7 +105,7 @@ export default function RegistrationPage() {
           fieldRef={conPassRef}
           errors={formErrors}
         />
-        <InputField type={"submit"} name={"submit"} errors={formErrors} />
+        <InputField type={"submit"} name={"submit"} errors={formErrors}/>
       </form>
       <hr />
       <p>
