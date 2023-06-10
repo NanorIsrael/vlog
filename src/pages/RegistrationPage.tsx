@@ -5,6 +5,7 @@ import Body from "../components/Body";
 import FlashMessage from "../components/FlashMessage";
 import InputField from "../components/Forms/InputField";
 import { useApi } from "../data/ApiProvider";
+import { useFlash } from "../data/FlashProvider";
 import { ErrorType } from "../models/post";
 
 export default function RegistrationPage() {
@@ -14,6 +15,7 @@ export default function RegistrationPage() {
   const passRef = useRef<HTMLInputElement>();
   const conPassRef = useRef<HTMLInputElement>();
   const api = useApi();
+  const flashMessage = useFlash();
 
   useEffect(() => usernameRef.current?.focus(), []);
 
@@ -63,7 +65,7 @@ export default function RegistrationPage() {
     });
     if (res.ok) {
       // alert("Registration success");
-      // <FlashMessage/>
+      flashMessage && flashMessage("Registration successfull!", "sucess");
       setFormErrors({});
     } else {
       console.log(`handle forms here -->`, res);
@@ -76,8 +78,9 @@ export default function RegistrationPage() {
 
   return (
     <Body>
-      <h1>Register</h1>
-      <form onSubmit={onSubmit}>
+      <section className="my-0 mx-auto w-11/12 flex flex-col justify-center items-center">
+      <h1 className="">Register</h1>
+      <form onSubmit={onSubmit} className="mb-5 p-10 rounded-lg bg-gray-200 shadow-lg flex flex-col justify-center items-center">
         <InputField
           label
           name={"username"}
@@ -101,16 +104,17 @@ export default function RegistrationPage() {
         <InputField
           label
           type={"password"}
-          name={"conPassword"}
+          name={"confirm password"}
           fieldRef={conPassRef}
           errors={formErrors}
         />
-        <InputField type={"submit"} name={"submit"} errors={formErrors}/>
+        <button type={"submit"} className={"rounded px-6 py-2 color text-white hover:opacity-50 border-none bg-orange-500"}>submit</button>
       </form>
       <hr />
-      <p>
-        Have an account already? <Link to="/login">Login here</Link>
+      <p className={'mb-20'}>
+        Have an account already? <Link to="/login" className={"underline text-orange-500"}>Login here</Link>
       </p>
+      </section>
     </Body>
   );
 }

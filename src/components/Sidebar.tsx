@@ -5,7 +5,7 @@ export default function Sidebar() {
     <nav>
       <ul>
         <li>
-          <NavLink to="/">Feed</NavLink>
+          <NavLink to="/" className="text-6xl text-white hover:text-gray-200">Feed</NavLink>
         </li>
         <li>
           <NavLink to="/explore">Explore</NavLink>

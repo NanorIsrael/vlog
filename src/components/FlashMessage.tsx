@@ -1,11 +1,12 @@
-import React from "react";
+import React, { useContext } from "react";
+import { FlashContext, FlashContextType } from "../data/FlashProvider";
 
 export default function FlashMessage() {
-  alert("Registration success");
-  //   return
-  //   (
-  //     <React.Fragment>
-  //       <p>Flash</p>
-  //     </React.Fragment>
-  //   );
+  const {flashMessage} = useContext(FlashContext) as FlashContextType;
+  
+    return (
+      <React.Fragment>
+        <p className={"text-center mb-10 " + flashMessage.type}>{flashMessage.message}</p>
+      </React.Fragment>
+    );
 }
