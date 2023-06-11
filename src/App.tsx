@@ -19,7 +19,6 @@ function App() {
       <QueryProvider>
       <ApiProvider>
         <ErrorBoundary>
-          <FlashProvider>
           <header className={"w-full mb-10 text-center bg-gradient-to-b from-yellow-400 via-orange-500 to-red-500 p-7 text-6xl text-white hover:text-gray-200"}>My Blog</header>
           <Routes>
             <Route path="/" element={<FeedPage />} />
@@ -29,7 +28,6 @@ function App() {
             <Route path="/users/:username" element={<UserPage />} />
             <Route path="*" element={<Navigate to="/" />} />
           </Routes>
-          </FlashProvider>
           </ErrorBoundary>
         </ApiProvider>
       </QueryProvider>

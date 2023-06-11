@@ -12,6 +12,7 @@ export default function InputField({
   errors,
   fieldRef,
 }: InputType) {
+  console.log(errors)
   return (
     <div className="p-1 flex flex-col mb-5">
       {label ? (
@@ -36,7 +37,7 @@ export default function InputField({
           />
       )
       }
-      {<p>{errors[name]}</p>}
+      {<p className="text-red-600 text-sm bold">{errors[name]}</p>}
     </div>
   );
 }

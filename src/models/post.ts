@@ -12,5 +12,5 @@ export interface ErrorType {
   username?: string;
   password?: string;
   email?: string;
-  conPassword?: string;
+  "confirm password"?: string;
 }

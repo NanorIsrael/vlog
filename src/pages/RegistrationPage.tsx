@@ -1,15 +1,16 @@
 import React, { useEffect } from "react";
 import { SyntheticEvent, useRef, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Body from "../components/Body";
 import FlashMessage from "../components/FlashMessage";
 import InputField from "../components/Forms/InputField";
 import { useApi } from "../data/ApiProvider";
-import { useFlash } from "../data/FlashProvider";
+import FlashProvider, { useFlash } from "../data/FlashProvider";
 import { ErrorType } from "../models/post";
 
-export default function RegistrationPage() {
+ function RegistrationPage() {
   const [formErrors, setFormErrors] = useState({});
+  const navigate = useNavigate();
   const usernameRef = useRef<HTMLInputElement>();
   const emailRef = useRef<HTMLInputElement>();
   const passRef = useRef<HTMLInputElement>();
@@ -46,13 +47,14 @@ export default function RegistrationPage() {
       errors.password = "password field can not be empty";
     }
     if (!confirm_pass) {
-      errors.conPassword = "confirm password field can not be empty";
+      errors['confirm password']= "confirm password field can not be empty";
     }
     if (!email) {
       errors.email = "confirm password field can not be empty";
     }
     if (password !== confirm_pass) {
-      errors.conPassword = "passwords don't match";
+      console.log("hey password dont match")
+      errors['confirm password'] = "passwords don't match";
     }
 
     setFormErrors(errors);
@@ -65,8 +67,9 @@ export default function RegistrationPage() {
     });
     if (res.ok) {
       // alert("Registration success");
-      flashMessage && flashMessage("Registration successfull!", "sucess");
+      flashMessage && flashMessage("Registration successfull!", "green");
       setFormErrors({});
+      navigate('/login');
     } else {
       console.log(`handle forms here -->`, res);
 
@@ -117,4 +120,13 @@ export default function RegistrationPage() {
       </section>
     </Body>
   );
+}
+
+export default function RegistrationPageWithFlash() {
+ return ( 
+    <FlashProvider>
+      <FlashMessage/>
+      <RegistrationPage/>
+    </FlashProvider>
+ )
 }
