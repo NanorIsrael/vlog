@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { SyntheticEvent, useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Body from "../components/Body";
 import FlashMessage from "../components/FlashMessage";
@@ -66,17 +66,15 @@ import { ErrorType } from "../models/post";
       password,
     });
     if (res.ok) {
-      // alert("Registration success");
       flashMessage && flashMessage("Registration successfull!", "green");
       setFormErrors({});
+      console.log(`handle forms here -->`, res);
+
       navigate('/login');
     } else {
-      console.log(`handle forms here -->`, res);
 
       setFormErrors(res.body.errors.json);
     }
-    // console.log(`handle forms here -->`, errors.password, errors.username)
-    // setError({})
   };
 
   return (

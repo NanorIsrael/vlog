@@ -1,17 +1,20 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { SyntheticEvent, useRef, useState } from "react";
-import { Link } from "react-router-dom";
-import Body from "../components/Body";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import InputField from "../components/Forms/InputField";
 import Modal from "../components/Modal";
-import { useApi } from "../data/ApiProvider";
+import { useFlash } from "../data/FlashProvider";
+import { useUser } from "../data/UserProvider";
 import { ErrorType } from "../models/post";
 
 export default function LoginPage() {
   const [formErrors, setFormErrors] = useState({});
   const usernameRef = useRef<HTMLInputElement>();
   const passRef = useRef<HTMLInputElement>();
-  // const api = useApi()
+  const user = useUser()
+  const navigate = useNavigate();
+  const flash = useFlash();
+  const location = useLocation();
 
   useEffect(() => usernameRef.current?.focus(), []);
 
@@ -25,31 +28,38 @@ export default function LoginPage() {
     if (!username) {
       errors.username = "username field can not be empty";
     }
-    if (!password || password === "") {
+    if (!password) {
       errors.password = "password field can not be empty";
     }
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
-    // const res = await api.post('/login', {username, password})
-    // if (res.ok) {
-    //     alert("Login success")
-    // } else {
-    //             console.log(`handle forms here -->`, res)
+    console.log(user)
 
-    //     setFormErrors(res.body.data)
-    // }
-    // console.log(`handle forms here -->`, errors.password, errors.username)
-    // setError({})
+
+    if (username && password) {
+
+      const result: string = await user?.login(username, password)
+      if (result === 'fail') {
+        flash && flash('Invalid username or password', 'red')
+      } else if (result === 'ok') {
+        let next = '/';
+        if (location.state && location?.state.next) {
+          next = location.state.next
+        }
+        navigate(next)
+      }
+    }
   };
 
   return (
-    <Body>
-      <Modal>
-      <h1 className="header">Login here</h1>
-      <form onSubmit={onSubmit}>
+    // <Body>
+      <Modal xtraclass={"bg-gray-200"}>
+        <h1 className="header">Login here</h1>
+        <form onSubmit={onSubmit}>
         <InputField
           label
+          type="text"
           name={"username"}
           fieldRef={usernameRef}
           errors={formErrors}
@@ -61,15 +71,13 @@ export default function LoginPage() {
           fieldRef={passRef}
           errors={formErrors}
         />
-        {/* <InputField label type={'password'} name={'confirm password'} fieldRef={ref} error={formErrors}/> */}
-        <InputField type={"submit"} name={"submit"} errors={formErrors} />
+        <button type={"submit"} className={"w-full mb-5 rounded px-6 py-2 color text-white hover:opacity-50 border-none bg-orange-500"}>submit</button>
       </form>
       <hr />
       <p>
-        Don&#39;t have an account? <Link to="/register">Register here</Link>
+        Don&#39;t have an account? <Link to="/register" className="underline text-orange-600">Register here</Link>
       </p>
       </Modal>
-   
-    </Body>
+    // </Body>
   );
 }

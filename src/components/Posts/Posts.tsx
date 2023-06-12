@@ -25,7 +25,7 @@ export default function Posts({ content }: postProps) {
     (async () => {
       const res = await api.get(url);
       if (res.ok) {
-        // console.log(result.data)
+        console.log(res.body)
         setPost(res.body.data);
       } else {
         setPost(null);
@@ -42,7 +42,7 @@ export default function Posts({ content }: postProps) {
           {posts === null ? (
             <p>Could not retrieve blog post</p>
           ) : posts.length === 0 ? (
-            <p>Could not retrieve blog post</p>
+            <p>Create your first post</p>
           ) : (
             <>
               {posts.map((post) => {

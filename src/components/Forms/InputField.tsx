@@ -12,7 +12,6 @@ export default function InputField({
   errors,
   fieldRef,
 }: InputType) {
-  console.log(errors)
   return (
     <div className="p-1 flex flex-col mb-5">
       {label ? (

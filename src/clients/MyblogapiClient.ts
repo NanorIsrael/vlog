@@ -12,7 +12,7 @@ export interface MyBlogAPIClient {
   put: (url: string, body: any, options?: any) => Promise<RequestResponse>;
   delete: (url: string, options?: any) => Promise<RequestResponse>;
   login: (username: string, password: string) => Promise<string>
-  logout: () => void
+  logout: () => Promise<void>
   isAuthenticated: () => boolean
 }
 
@@ -91,7 +91,8 @@ export default class MyBlogAPIClientImp {
     if (!response.ok) {
       return response.status === 401 ? 'fail' : 'error';
     }
-    localStorage.setItem("accessToken",  response.body?.accessToken);
+    localStorage.setItem("accessToken",  response.body?.access_token);
+
     return 'ok';
   }
 

@@ -4,11 +4,11 @@ import { useApi } from "./ApiProvider";
 interface UserType {
     user: string | null
     logout: () => void
-    login: (username: string, password: string) => void
+    login: (username: string, password: string) => Promise<string>
     setUser: Dispatch<SetStateAction<string | null>>
 }
 const UserContext = createContext<UserType | null>(null);
-export default function ApiProvider({ children }: any) {
+export default function UserProvider({ children }: any) {
   const [user, setUser] = useState<string | null>(null);
   const api = useApi()
 
@@ -21,16 +21,18 @@ export default function ApiProvider({ children }: any) {
             }
           }
       })();
-  }, [])
-  
+  }, [api])
+
   const login = async (username: string, password: string) => {
       const res = await api.login(username, password);
       if (res === 'ok') {
-        const res = await api.get("/me")
-        if (res.ok) {
-            setUser(res.body)
+        const result = await api.get("/me")
+
+        if (result.ok) {
+            setUser(result.body)
         }
       }
+      return res;
   }
   const logout = async () => {
         await api.logout();
