@@ -8,7 +8,7 @@ interface BodyProps {
 export default function Body({sidebar, children }: BodyProps) {
   return (
     <React.Fragment>
-      {/* {sidebar && < Sidebar />} */}
+      {sidebar && < Sidebar />}
       <React.Fragment>{children}</React.Fragment>
     </React.Fragment>
   );
