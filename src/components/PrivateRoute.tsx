@@ -1,8 +1,9 @@
 
 import { useUser } from "../data/UserProvider";
 import { Navigate, useLocation } from "react-router-dom";
+import { ReactElement } from "react";
 
-export default function PrivateRoute({children}: any) {
+export default function PrivateRoute({children}: { children: ReactElement}) {
     const {user} = useUser();
     const location = useLocation();
     

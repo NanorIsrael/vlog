@@ -1,11 +1,14 @@
-import React from "react";
+import React, { ReactElement } from "react";
 import Sidebar from "./Sidebar";
-import FlashMessage from "./FlashMessage"
 
-export default function Body({ sidebar, children }: any) {
+interface BodyProps {
+  sidebar?: any,
+  children: any
+}
+export default function Body({sidebar, children }: BodyProps) {
   return (
     <React.Fragment>
-      {sidebar && <Sidebar />}
+      {/* {sidebar && < Sidebar />} */}
       <React.Fragment>{children}</React.Fragment>
     </React.Fragment>
   );

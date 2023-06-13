@@ -1,9 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
-import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import Body from "../components/Body";
 import { useApi } from "../data/ApiProvider";
-// import Post from "../components/Post";
 
 export interface UserType {
   username: string;
