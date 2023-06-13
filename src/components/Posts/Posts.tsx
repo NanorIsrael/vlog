@@ -34,15 +34,15 @@ export default function Posts({ content }: postProps) {
   }, [api, url]);
 
   return (
-    <React.Fragment>
+    <article className="grid gap-4 sm:grid-cols-2">
        {posts === undefined ? (
         <p>Loading</p>
       ) : (
-        <div>
+        <div >
           {posts === null ? (
             <p>Could not retrieve blog post</p>
           ) : posts.length === 0 ? (
-            <p>Create your first post</p>
+            <p>Create post</p>
           ) : (
             <>
               {posts.map((post) => {
@@ -52,6 +52,6 @@ export default function Posts({ content }: postProps) {
           )} 
         </div>
       )}
-    </React.Fragment>
+    </article>
   );
 }

@@ -22,7 +22,6 @@ export default function InputField({
             type={type || "text"}
             placeholder={name}
             ref={fieldRef}
-            className="block w-80"
           />
         </label>
       ) : 
@@ -32,7 +31,6 @@ export default function InputField({
             type={type || "text"}
             placeholder={name}
             ref={fieldRef}
-            className={""}
           />
       )
       }
