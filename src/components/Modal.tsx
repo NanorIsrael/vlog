@@ -2,8 +2,12 @@ import {  ReactElement, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
 import "../App.css";
 
-// { children: ReactElement, xtraclass: string})
-export default function Modal({ children, xtraclass}: any) {
+// }
+interface IModal {
+    xtraclass: string
+    children: ReactElement
+}
+export const Modal: React.FC<IModal> = ({children, xtraclass}) => {
     const modalref = useRef<HTMLDivElement>()
 
     if (!modalref.current) {
@@ -24,7 +28,7 @@ export default function Modal({ children, xtraclass}: any) {
         }
     }, [])
   return createPortal(
-                <section className={'p-0 m-0 modal ' + xtraclass}>
+                <section className={'p-0 m-0 modal ' + xtraclass }>
                 {children}
                 </section>, modalref.current
             );

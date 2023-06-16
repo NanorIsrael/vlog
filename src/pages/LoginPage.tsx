@@ -1,19 +1,20 @@
-import { useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import { MutableRefObject, useEffect } from "react";
 import { SyntheticEvent, useRef, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import InputField from "../components/Forms/InputField";
-import Modal from "../components/Modal";
+import {Modal} from "../components/Modal";
 import { useFlash } from "../data/FlashProvider";
 import { useUser } from "../data/UserProvider";
 import { ErrorType } from "../models/post";
 
 export default function LoginPage() {
-  const [formErrors, setFormErrors] = useState({});
-  const usernameRef = useRef<HTMLInputElement>();
-  const passRef = useRef<HTMLInputElement>();
+  const [formErrors, setFormErrors] = useState<ErrorType>({});
+  const usernameRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const passRef = useRef() as MutableRefObject<HTMLInputElement>;
   const user = useUser()
   const navigate = useNavigate();
-  const flash = useFlash();
+  // const flash = useFlash();
   const location = useLocation();
 
   useEffect(() => usernameRef.current?.focus(), []);
@@ -24,7 +25,7 @@ export default function LoginPage() {
     const username = usernameRef.current?.value;
     const password = passRef.current?.value;
 
-    const errors: ErrorType = {};
+    let errors: ErrorType = {} ;
     if (!username) {
       errors.username = "username field can not be empty";
     }
@@ -34,18 +35,22 @@ export default function LoginPage() {
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
-    console.log(user)
-
-
     if (username && password) {
 
       const result: string = await user?.login(username, password)
+
       if (result === 'fail') {
-        flash && flash('Invalid username or password', 'red')
+        errors = {};
+       
+        // flash && flash('Invalid username or password', 'red')
+        errors.password = "username and password dont match";
+        setFormErrors(errors);
       } else if (result === 'ok') {
         let next = '/';
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
         if (location.state && location?.state.next) {
-          next = location.state.next
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+          next = location.state.next as string
         }
         navigate(next)
       }
@@ -53,8 +58,8 @@ export default function LoginPage() {
   };
 
   return (
-    // <Body>
       <Modal xtraclass={"bg-gray-200"}>
+        <>
         <h1 className="header">Login here</h1>
         <form onSubmit={onSubmit}>
         <InputField
@@ -77,7 +82,7 @@ export default function LoginPage() {
       <p>
         Don&#39;t have an account? <Link to="/register" className="underline text-orange-600">Register here</Link>
       </p>
-      </Modal>
-    // </Body>
+        </>
+    </Modal>
   );
 }

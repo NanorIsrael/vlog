@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/no-noninteractive-element-interactions */
 /* eslint-disable react/jsx-no-comment-textnodes */
-import React, { useContext } from "react";
+import { useContext } from "react";
 import { FlashContext, FlashContextType} from "../data/FlashProvider";
 
 export default function FlashMessage() {

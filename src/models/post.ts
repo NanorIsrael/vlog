@@ -8,9 +8,24 @@ export interface PostType {
   text: string;
 }
 
-export interface ErrorType {
-  username?: string;
-  password?: string;
+export type ErrorType = {
+  [key: string]: string;
+};
+
+export interface AuthFormType {
+  username: string;
   email?: string;
-  "confirm password"?: string;
+  password: string;
+  confirm_pass?: string;
+}
+
+export interface LoginForm {
+  username: string;
+  password: string;
+}
+
+export interface MeType {
+  about_me: string | null
+  avatar_url: string
+  username: string
 }

@@ -39,7 +39,7 @@ const renderTime = (date: Date) => {
   ];
 };
 
-export default function TimeAgo({ isoDate }: any) {
+export default function TimeAgo({ isoDate }: {isoDate: string}) {
   const [, setUpdate] = useState(0);
   const [time, unit, interval] = renderTime(new Date(Date.parse(isoDate)));
 

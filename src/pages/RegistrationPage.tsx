@@ -1,4 +1,5 @@
-import React, { useEffect } from "react";
+/* eslint-disable @typescript-eslint/no-misused-promises */
+import React, { MutableRefObject, useEffect } from "react";
 import { useRef, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import Body from "../components/Body";
@@ -6,15 +7,15 @@ import FlashMessage from "../components/FlashMessage";
 import InputField from "../components/Forms/InputField";
 import { useApi } from "../data/ApiProvider";
 import FlashProvider, { useFlash } from "../data/FlashProvider";
-import { ErrorType } from "../models/post";
+import { AuthFormType, ErrorType } from "../models/post";
 
  function RegistrationPage() {
-  const [formErrors, setFormErrors] = useState({});
+  const [formErrors, setFormErrors] = useState({} as ErrorType);
   const navigate = useNavigate();
-  const usernameRef = useRef<HTMLInputElement>();
-  const emailRef = useRef<HTMLInputElement>();
-  const passRef = useRef<HTMLInputElement>();
-  const conPassRef = useRef<HTMLInputElement>();
+  const usernameRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const passRef = useRef() as MutableRefObject<HTMLInputElement>;
+  const conPassRef = useRef() as MutableRefObject<HTMLInputElement>;
   const api = useApi();
   const flashMessage = useFlash();
 
@@ -60,7 +61,7 @@ import { ErrorType } from "../models/post";
     setFormErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
-    const res = await api.post("/users", {
+    const res = await api.post<AuthFormType, {ok: string, errors?: ErrorType}>("/users", {
       username,
       email,
       password,
@@ -68,12 +69,11 @@ import { ErrorType } from "../models/post";
     if (res.ok) {
       flashMessage && flashMessage("Registration successfull!", "green");
       setFormErrors({});
-      console.log(`handle forms here -->`, res);
-
       navigate('/login');
     } else {
-
-      setFormErrors(res.body.errors.json);
+      if (res.body?.errors) {
+        setFormErrors(res.body?.errors) ;
+      }
     }
   };
 
@@ -128,3 +128,4 @@ export default function RegistrationPageWithFlash() {
     </FlashProvider>
  )
 }
+

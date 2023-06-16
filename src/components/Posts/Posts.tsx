@@ -6,7 +6,7 @@ import Post from "./post";
 
 type postProps = { content: string };
 export default function Posts({ content }: postProps) {
-  const [posts, setPost] = useState<PostType[] | undefined | null>(undefined);
+  const [posts, setPost] = useState(undefined as PostType[] | undefined  | null);
   const api = useApi();
 
   let url: string;
@@ -22,11 +22,10 @@ export default function Posts({ content }: postProps) {
       url = "/users/" + content + "/posts";
   }
   useEffect(() => {
-    (async () => {
-      const res = await api.get(url);
+    void (async () => {
+      const res = await api.get<PostResult>(url);
       if (res.ok) {
-        console.log(res.body)
-        setPost(res.body.data);
+        setPost(res.body?.data);
       } else {
         setPost(null);
       }
@@ -54,4 +53,7 @@ export default function Posts({ content }: postProps) {
       )}
     </article>
   );
+}
+interface PostResult {
+  data: PostType[] | null | undefined
 }

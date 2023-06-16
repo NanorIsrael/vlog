@@ -2,17 +2,20 @@ import { useQuery } from "@tanstack/react-query";
 import { useParams } from "react-router-dom";
 import Body from "../components/Body";
 import { useApi } from "../data/ApiProvider";
+import { MeType } from "../models/post";
 
-export interface UserType {
-  username: string;
-  about_me: string;
-}
-export default function UserPage() {
+
+const UserPage = () => {
   const api = useApi();
   const { username } = useParams();
-  const readQuery = useQuery(["user"], () => api?.get("/users/" + username))
+  if (!username) {
+    throw new Error("Username not found")
+  }
 
-  const user = readQuery?.data?.body ?? {}
+  const readQuery = useQuery(["user"], () => api?.get<MeType>(`/users/${username}`))
+
+  const user = readQuery?.data?.body
+
   return (
     <>
       {readQuery.isLoading ? (
@@ -21,15 +24,18 @@ export default function UserPage() {
         <p>Could not find user</p>
       ) : (
         <>
-          <Body sidebar>
-          <img src={user.avatar_url + "&s=128"} alt="user avatar" />
+        {  
+        user && <Body sidebar>
+            <img src={user.avatar_url + "&s=128"} alt="user avatar" />
             <h1>{user.username}</h1>
             <p>{user.about_me}</p>
           </Body>
+          }
         </>
-      )}
+      )
+      } 
     </>
   );
-
-  
 }
+
+export default UserPage;

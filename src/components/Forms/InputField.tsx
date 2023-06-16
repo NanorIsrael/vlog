@@ -1,9 +1,12 @@
+import { MutableRefObject, ReactNode } from "react";
+import { AuthFormType, ErrorType } from "../../models/post";
+
 type InputType = {
   name: string;
   label?: boolean;
   type?: string;
-  errors: any;
-  fieldRef?: any;
+  errors?: ErrorType ;
+  fieldRef?:  MutableRefObject<HTMLInputElement>;
 };
 export default function InputField({
   name,
@@ -12,6 +15,7 @@ export default function InputField({
   errors,
   fieldRef,
 }: InputType) {
+
   return (
     <div className="p-1 flex flex-col mb-5">
       {label ? (
@@ -34,7 +38,9 @@ export default function InputField({
           />
       )
       }
-      {<p className="text-red-600 text-sm bold">{errors[name]}</p>}
+      {
+        errors && <p className="text-red-600 text-sm bold">{errors[name]}</p>
+      }
     </div>
   );
 }

@@ -1,8 +1,9 @@
 
 import { useUser } from "../data/UserProvider";
 import { Navigate } from "react-router-dom";
+import { ReactElement } from "react";
 
-export default function PublicRoute({children}: any) {
+export default function PublicRoute({children}: {children: ReactElement}) {
     const {user} = useUser();
     
     if (user === undefined) {
