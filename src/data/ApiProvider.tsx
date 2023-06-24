@@ -1,10 +1,10 @@
-import { createContext, useContext } from "react";
+import { createContext, ReactElement, useContext } from "react";
 import MyBlogAPIClientImp, {
   MyBlogAPIClient,
 } from "../clients/MyblogapiClient";
 
 const ApiContext = createContext<MyBlogAPIClient | null>(null);
-export default function ApiProvider({ children }: any) {
+export default function ApiProvider({ children }: {children: ReactElement}) {
   const api = new MyBlogAPIClientImp();
   return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>;
 }

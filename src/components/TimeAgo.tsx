@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 const secondsTable: [string, number][] = [
   ["year", 60 * 60 * 24 * 365],

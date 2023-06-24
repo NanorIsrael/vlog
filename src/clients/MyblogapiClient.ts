@@ -47,7 +47,20 @@ export default class MyBlogAPIClientImp{
     this.base_url = BASE_API_URL + "/api";
   }
 
-  async request<T, R>(options: OptionsType<T>): Promise<RequestResponse<R>> {
+  async request<T, R>(options: OptionsType<T>) {
+    const response = await this.requestInternal<T, R>(options);
+    if (response.status === 401 && options.url !== '/tokens') {
+      const res = await this.put<LoginResponse, LoginResponse>('/tokens', {
+        access_token: localStorage.getItem("accessToken") as string
+      });
+      if (res.ok) {
+        localStorage.setItem("accessToken", res.body?.access_token as string)
+      }
+    }
+    return response;
+  }
+
+  async requestInternal<T, R>(options: OptionsType<T>): Promise<RequestResponse<R>> {
     let response;
     let query = new URLSearchParams((options.query || {}) as URLSearchParams).toString();
 
@@ -55,12 +68,10 @@ export default class MyBlogAPIClientImp{
       query = "?" + query;
     }
     try {
-      console.log("url", options.url)
       const accessToken =  localStorage.getItem("accessToken")
         if (!accessToken && options.url != "/tokens") {
           throw new Error("Access token not found");
         }
-    
 
       response = await fetch(this.base_url + options.url + query, {
         method: options.method,
@@ -70,6 +81,7 @@ export default class MyBlogAPIClientImp{
           ...options.headers,
         },
         body: options.body ? JSON.stringify(options.body) : null,
+        credentials: options.url === '/tokens' ? 'include' : 'omit'
       });
     } catch (error) {
       response = {
@@ -121,7 +133,6 @@ export default class MyBlogAPIClientImp{
         'Authorization':  'Basic ' + (btoa(username + ":" + password))
       }
     })
-    console.log("this is result", response)
 
     if (!response.ok) {
       return response.status === 401 ? 'fail' : 'error';
