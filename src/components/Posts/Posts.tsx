@@ -1,14 +1,24 @@
-import React from "react";
+import { memo } from "react";
 import { useEffect, useState } from "react";
 import { useApi } from "../../data/ApiProvider";
-import { PostType } from "../../models/post";
+// import { Provider, useSelector } from "react-redux";
+// import Store from '../../store'
+import { PostResult, PostType } from "../../models/post";
 import Post from "./post";
+// import {useDispatch} from "react-redux";
+// import {post} from "../../PostSlice";
+
+
 
 type postProps = { content: string };
-export default function Posts({ content }: postProps) {
+export default memo(function Posts({ content }: postProps) {
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+  // const posts:  PostType[] | null |undefined = useSelector<null, PostType[] | undefined | null>((state) => state as  PostType[] | null | undefined) 
   const [posts, setPost] = useState(undefined as PostType[] | undefined  | null);
   const api = useApi();
+  // const  dispatch  = useDispatch();
 
+  // console.log("this is post", posts)
   let url: string;
   switch (content) {
     case "feed":
@@ -26,7 +36,9 @@ export default function Posts({ content }: postProps) {
       const res = await api.get<PostResult>(url);
       if (res.ok) {
         setPost(res.body?.data);
+        // dispatch(post(res.body?.data))
       } else {
+        // dispatch(post(null));
         setPost(null);
       }
     })();
@@ -53,7 +65,13 @@ export default function Posts({ content }: postProps) {
       )}
     </article>
   );
-}
-interface PostResult {
-  data: PostType[] | null | undefined
-}
+});
+
+
+// export default function PostProvider({ content }: postProps){
+//   return (
+//           <Provider store={Store}>
+//             <Posts content={content}/>
+//           </Provider>
+//   )
+// }

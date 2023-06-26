@@ -29,3 +29,7 @@ export interface MeType {
   avatar_url: string
   username: string
 }
+
+export interface PostResult {
+  data: PostType[] | null | undefined
+}
