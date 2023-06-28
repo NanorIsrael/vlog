@@ -1,4 +1,4 @@
-import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from "react";
+import { createContext, Dispatch, SetStateAction, useCallback, useContext, useEffect, useState } from "react";
 import { MeType } from "../models/post";
 import { useApi } from "./ApiProvider";
 
@@ -25,7 +25,7 @@ export default function UserProvider({ children }: any) {
       })();
   }, [api])
 
-  const login = async (username: string, password: string) => {
+  const login = useCallback(async (username: string, password: string) => {
       const res = await api.login(username, password);
 
       if (res === 'ok') {
@@ -35,11 +35,12 @@ export default function UserProvider({ children }: any) {
         }
       }
       return res;
-  }
-  const logout = async () => {
+  }, []);
+  
+  const logout = useCallback(async () => {
         await api.logout();
         setUser(null)
-  }
+  }, [])
   // eslint-disable-next-line @typescript-eslint/no-misused-promises
   return <UserContext.Provider value={{user, setUser, login, logout}}>{children}</UserContext.Provider>;
 }

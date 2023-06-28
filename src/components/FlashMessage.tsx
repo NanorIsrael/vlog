@@ -8,7 +8,10 @@ export default function FlashMessage() {
   
     return (
       <>
-      { visible && <div className={"flex justify-between items-center w-4/12 p-4  my-0 mx-auto mb-10 " + "bg-" + flashMessage.type + "-300"}>
+      { visible && <div 
+        role={"alert"} 
+        data-visible={visible}
+        className={"flex justify-between items-center w-4/12 p-4  my-0 mx-auto mb-10 " + "bg-" + flashMessage.type + "-300"}>
         <p 
         className={" " + flashMessage.type}
        >

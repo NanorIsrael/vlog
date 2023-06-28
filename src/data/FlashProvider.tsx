@@ -1,4 +1,4 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useCallback, useContext, useState } from "react";
 
 
 export interface FlashType {
@@ -23,14 +23,14 @@ export default function FlashProvider({ children }: any) {
         type: ""
     })
 
-    const flash = (message: string, type: string) => {
+    const flash = useCallback((message: string, type: string) => {
         setFlashMessage({message, type})
         setVisible(true)
-    };
+    }, []);
 
-    const hideFlash = () => {
+    const hideFlash = useCallback(() => {
         setVisible(false)
-    };
+    }, []);
 
     return  <FlashContext.Provider value={{flash, flashMessage, visible, hideFlash}}> {children} </FlashContext.Provider>
 }

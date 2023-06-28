@@ -40,7 +40,10 @@ export interface MyBlogAPIClient {
 
 export default class MyBlogAPIClientImp{
   base_url;
-  constructor() {
+  onError
+  constructor(onError: <T>(res: RequestResponse<T>) => void) {
+    this.onError = onError
+
     if (!BASE_API_URL) {
       throw new Error("Base url is not provided");
     }
@@ -56,6 +59,9 @@ export default class MyBlogAPIClientImp{
       if (res.ok) {
         localStorage.setItem("accessToken", res.body?.access_token as string)
       }
+    }
+    if (response.status >= 500 && this.onError) {
+        this.onError(response);
     }
     return response;
   }

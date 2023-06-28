@@ -1,11 +1,18 @@
-import { createContext, ReactElement, useContext } from "react";
+import { createContext, ReactElement, useCallback, useContext, useMemo } from "react";
 import MyBlogAPIClientImp, {
   MyBlogAPIClient,
 } from "../clients/MyblogapiClient";
+import { useFlash } from "./FlashProvider";
 
 const ApiContext = createContext<MyBlogAPIClient | null>(null);
 export default function ApiProvider({ children }: {children: ReactElement}) {
-  const api = new MyBlogAPIClientImp();
+  const flash = useFlash();
+
+  const onError = useCallback(() => {
+    flash && flash("An tunexpected error has occured, Please try again.", "danger")
+  }, [])
+
+  const api = useMemo(() => new MyBlogAPIClientImp(onError), [onError]);
   return <ApiContext.Provider value={api}>{children}</ApiContext.Provider>;
 }
 

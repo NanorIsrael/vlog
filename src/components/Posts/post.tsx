@@ -1,7 +1,7 @@
 import { PostType } from "../../models/post";
 import TimeAgo from "../TimeAgo";
 
-export default function Post({ id, author, text, timestamp }: PostType) {
+export default function Post({ author, text, timestamp }: PostType) {
   return (
     <>
       <img src={author.avatar_url + "&s=48"} alt="" />
