@@ -11,6 +11,7 @@ import { AuthFormType, ErrorType } from "../models/post";
 
  function RegistrationPage() {
   const [formErrors, setFormErrors] = useState({} as ErrorType);
+  const [toggleBtn, setToggleBtn] = useState(true);
   const navigate = useNavigate();
   const usernameRef = useRef() as MutableRefObject<HTMLInputElement>;
   const emailRef = useRef() as MutableRefObject<HTMLInputElement>;
@@ -21,6 +22,7 @@ import { AuthFormType, ErrorType } from "../models/post";
 
   useEffect(() => usernameRef.current?.focus(), []);
 
+  
   const onSubmit = async (ev: React.FormEvent<HTMLFormElement>) => {
     ev.preventDefault();
 
@@ -33,13 +35,13 @@ import { AuthFormType, ErrorType } from "../models/post";
     //   console.log("this name", ev.currentTarget, formData.get("username"))
 
 
-
-    // console.log("this name", formData.get("username"))
     const username = usernameRef.current?.value;
     const email = emailRef.current?.value;
     const password = passRef.current?.value;
     const confirm_pass = conPassRef.current?.value;
-
+  
+    // console.log("this name", formData.get("username"))
+    
     const errors: ErrorType = {};
     if (!username) {
       errors.username = "username field can not be empty";
@@ -51,7 +53,7 @@ import { AuthFormType, ErrorType } from "../models/post";
       errors['confirm password']= "confirm password field can not be empty";
     }
     if (!email) {
-      errors.email = "confirm password field can not be empty";
+      errors.email = "email field can not be empty";
     }
     if (password !== confirm_pass) {
       console.log("hey password dont match")
@@ -109,7 +111,11 @@ import { AuthFormType, ErrorType } from "../models/post";
           fieldRef={conPassRef}
           errors={formErrors}
         />
-        <button type={"submit"} className={"rounded px-6 py-2 color text-white hover:opacity-50 border-none bg-orange-500"}>submit</button>
+        <button type={"submit"}
+        className={"rounded px-6 py-2 color text-white hover:opacity-50 border-none bg-orange-500"}
+         >
+           submit
+           </button>
       </form>
       <hr />
       <p className={'mb-20'}>

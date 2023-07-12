@@ -202,7 +202,6 @@ test("login user out", async () => {
   })
 
   const Test = () => {
-    const [result, setResult] = useState<string | null>(null);
     const {logout, user} = useUser();
 
     if (user) {

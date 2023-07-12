@@ -39,7 +39,7 @@ export default function InputField({
       )
       }
       {
-        errors && <p className="text-red-600 text-sm bold">{errors[name]}</p>
+        errors && <p className={`text-red-600 text-sm bold ${name}`}>{errors[name]}</p>
       }
     </div>
   );
