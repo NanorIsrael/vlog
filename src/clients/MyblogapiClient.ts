@@ -89,6 +89,7 @@ export default class MyBlogAPIClientImp{
         body: options.body ? JSON.stringify(options.body) : null,
         credentials: options.url === '/tokens' ? 'include' : 'omit'
       });
+      
     } catch (error) {
       response = {
         ok: false,

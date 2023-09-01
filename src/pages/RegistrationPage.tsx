@@ -68,6 +68,7 @@ import { AuthFormType, ErrorType } from "../models/post";
       email,
       password,
     });
+
     if (res.ok) {
       flashMessage && flashMessage("Registration successfull!", "green");
       setFormErrors({});
